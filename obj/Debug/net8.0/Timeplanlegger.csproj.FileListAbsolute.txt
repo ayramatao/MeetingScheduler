@@ -1,0 +1,14 @@
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\bin\Debug\net8.0\Timeplanlegger.exe
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\bin\Debug\net8.0\Timeplanlegger.deps.json
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\bin\Debug\net8.0\Timeplanlegger.runtimeconfig.json
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\bin\Debug\net8.0\Timeplanlegger.dll
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\bin\Debug\net8.0\Timeplanlegger.pdb
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\obj\Debug\net8.0\Timeplanlegger.GeneratedMSBuildEditorConfig.editorconfig
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\obj\Debug\net8.0\Timeplanlegger.AssemblyInfoInputs.cache
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\obj\Debug\net8.0\Timeplanlegger.AssemblyInfo.cs
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\obj\Debug\net8.0\Timeplanlegger.csproj.CoreCompileInputs.cache
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\obj\Debug\net8.0\Timeplanlegger.dll
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\obj\Debug\net8.0\refint\Timeplanlegger.dll
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\obj\Debug\net8.0\Timeplanlegger.pdb
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\obj\Debug\net8.0\Timeplanlegger.genruntimeconfig.cache
+D:\Ny_backup\JOBB\AMO\Timeplanlegger\Timeplanlegger\obj\Debug\net8.0\ref\Timeplanlegger.dll
