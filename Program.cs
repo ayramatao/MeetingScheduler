@@ -19,6 +19,7 @@ namespace Timeplanlegger
 
             HandleUserData handleUser = new HandleUserData();
             handleUser.GetUser(dataBaseFilePath, usernames, newLogFile);
+            Console.WriteLine("Hello world!");
         }
     }
 }
