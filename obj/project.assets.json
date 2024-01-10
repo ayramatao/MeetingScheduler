@@ -8,23 +8,23 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\fs\\.nuget\\packages\\": {},
-    "D:\\VisualStudio\\SDK\\NuGetPackages": {}
+    "C:\\Users\\shint\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\Timeplanlegger.csproj",
+      "projectUniqueName": "D:\\Documents\\work\\Csharp-learning\\timeplanlegger-2\\Timeplanlegger\\Timeplanlegger.csproj",
       "projectName": "Timeplanlegger",
-      "projectPath": "D:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\Timeplanlegger.csproj",
-      "packagesPath": "C:\\Users\\fs\\.nuget\\packages\\",
-      "outputPath": "D:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\obj\\",
+      "projectPath": "D:\\Documents\\work\\Csharp-learning\\timeplanlegger-2\\Timeplanlegger\\Timeplanlegger.csproj",
+      "packagesPath": "C:\\Users\\shint\\.nuget\\packages\\",
+      "outputPath": "D:\\Documents\\work\\Csharp-learning\\timeplanlegger-2\\Timeplanlegger\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "D:\\VisualStudio\\SDK\\NuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\fs\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\shint\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -32,8 +32,7 @@
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {}
       },
       "frameworks": {
         "net8.0": {
