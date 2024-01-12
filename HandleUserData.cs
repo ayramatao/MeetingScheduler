@@ -2,6 +2,9 @@ using System;
 using System.IO;
 using System.Text;
 using System.Globalization;
+using Microsoft.VisualBasic;
+
+
 
 public class HandleUserData {
     bool hasUsername;
@@ -15,7 +18,7 @@ public class HandleUserData {
         DateTime newCalendar = new DateTime(2024, 1, 1, new GregorianCalendar());
         Console.WriteLine("Who is logging in? ");
         var newUser = Console.ReadLine();
-        if(existingUsers != "") 
+        if(existingUsers != System.String.Empty) 
         {
             Console.WriteLine($"{existingUsers} is already logged in!");
             File.AppendAllText(dataBaseFilePath, newUser + "\n");
@@ -40,10 +43,10 @@ public class HandleUserData {
             foreach(string users in allUsers) 
             {
                 bool isUserAvailable = CheckIfUserIsAvailableInCalendar(users);
-               
+                Console.WriteLine($"{users} is available for a meeting on {newCalendar.Date.AddHours}");     
             }
-            Console.WriteLine($"{allUsers} is available for a meeting on {newCalendar.Date}"); 
-            Console.WriteLine(newCalendar.ToLocalTime());
+           
+            //Console.WriteLine(newCalendar.ToLocalTime());
         }
 
         catch(Exception error) 
@@ -64,7 +67,7 @@ public class HandleUserData {
     {
         bool available = true;
         if(available == false) {
-            Console.WriteLine($"Not available for a meeting!");
+            Console.WriteLine($"User is not available for a meeting!");
         }
         else {
             Console.WriteLine("Available");

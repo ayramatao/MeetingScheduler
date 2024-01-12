@@ -3,13 +3,13 @@ using System.IO;
 using System.Globalization;
 using System.Text;
 
+
 namespace Timeplanlegger
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World");
 
             string dataBaseFilePath = "D:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\dataBaseFile.txt";
             
@@ -19,7 +19,7 @@ namespace Timeplanlegger
 
             HandleUserData handleUser = new HandleUserData();
             handleUser.GetUser(dataBaseFilePath, usernames, newLogFile);
-            Console.WriteLine("Hello world!");
+
         }
     }
 }
