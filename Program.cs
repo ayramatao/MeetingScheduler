@@ -18,6 +18,7 @@ namespace Timeplanlegger
             string newLogFile = "D:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\log.txt";
 
             HandleUserData handleUser = new HandleUserData();
+            handleUser.CheckForDuplicateStrings(dataBaseFilePath);
             handleUser.GetUser(dataBaseFilePath, usernames, newLogFile);
 
         }
