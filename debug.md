@@ -77,3 +77,18 @@ public class DynamicDatePlanner : Form
 
 
 ````
+
+````cs
+        string existingUsers = File.ReadAllText(dataBaseFilePath);
+
+        if(existingUsers != "") 
+        {
+            Console.WriteLine($"{existingUsers} is already logged in!");
+        }
+        else 
+        {
+            Console.WriteLine($"{newUser} has logged in!");
+            File.AppendAllText(dataBaseFilePath, newUser + "\n");
+        }
+
+````

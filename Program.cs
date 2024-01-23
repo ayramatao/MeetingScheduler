@@ -11,17 +11,16 @@ namespace Timeplanlegger
         static void Main(string[] args)
         {
 
-            string dataBaseFilePath = "D:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\dataBaseFile.txt";
-            
-            string[] usernames = {};
-            
-            string newLogFile = "D:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\log.txt";
+            string dataBaseFilePath = "E:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\dataBaseFile.txt";
+
+            string[] usernames = { };
+
+            string newLogFile = "E:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\log.txt";
 
             HandleUserData handleUser = new HandleUserData();
+            handleUser.CheckForDuplicateStrings(dataBaseFilePath);
             handleUser.GetUser(dataBaseFilePath, usernames, newLogFile);
 
         }
     }
 }
-
-
