@@ -92,3 +92,51 @@ public class DynamicDatePlanner : Form
         }
 
 ````
+# GetUser method
+````cs
+        try
+        {
+            using (StreamWriter writer = new StreamWriter(dataBaseFilePath, true))
+            {
+                foreach (string username in usernames)
+                {
+                    writer.WriteLine(username);
+                }
+            }
+            // read the usernames from the db-file
+            string[] allUsers = File.ReadAllLines(dataBaseFilePath);
+            // bool isUserAvailable = CheckIfUserIsAvailableInCalendar(allUsers[1]);
+            /*
+            foreach (string user in allUsers)
+            {
+                Console.WriteLine("DEBUG: LINE 40: CHECKING SIZE OF DATABASEFILE USING ARRAY LENGHT INDEXING");
+                Console.WriteLine(allUsers.Length);
+                string formatString = string.Join("", user);
+                Console.WriteLine($"{user} is available for a meeting on {newCalendar} DEBUG: LINE 41");
+            }
+            */
+            Console.WriteLine($"{allUsers.AsQueryable()} is available for a meeting on {newCalendar} DEBUG: LINE 45");
+            var checkAvailabilty = CheckUserAvailability(dataBaseFilePath, newUser);
+            Console.WriteLine(checkAvailabilty);
+            var checkCalendar = CheckIfUserIsAvailableInCalendar(dataBaseFilePath, newUser);
+            Console.WriteLine(checkCalendar);
+            //Console.WriteLine($"{allUsers.Split("")} is available for a meeting on {newCalendar}"); 
+            //Console.WriteLine(newCalendar.ToLocalTime());
+        }
+
+        catch (Exception error)
+        {
+            using (FileStream IOStream = File.Create(logFile))
+            {
+                Byte[] title = new UTF8Encoding(true).GetBytes("Log file");
+                IOStream.Write(title, 0, title.Length);
+                byte[] author = new UTF8Encoding(true).GetBytes("System");
+                IOStream.Write(author, 0, author.Length);
+                byte[] errorMessage = new UTF8Encoding(true).GetBytes("Errors occured");
+                IOStream.Write(errorMessage, 0, errorMessage.Length);
+                Console.WriteLine(error);
+            }
+        }
+    }
+
+````
