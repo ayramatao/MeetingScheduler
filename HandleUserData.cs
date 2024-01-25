@@ -44,7 +44,7 @@ public class HandleUserData
             {
                 Username = newUser,
                 MeetingDate = newCalendar,
-                Availability = "available"
+                Availability = "not available"
             });
 
             SaveUserDatabase(userDatabase);
@@ -52,9 +52,55 @@ public class HandleUserData
 
         else
         {
-            Console.WriteLine($"{newUser} is available for a meeting on {newCalendar} DEBUG: LINE 54");
+
+            Console.WriteLine("");
         }
 
+        if (existingUser.Availability != "available")
+        {
+            ScheduleNewMeeting(newUser);
+        }
+
+    }
+
+    public void ScheduleNewMeeting(string username)
+    {
+        try
+        {
+            var userDatabase = LoadUserDatabase();
+            var user = userDatabase.FirstOrDefault(u => u.Username == username);
+
+            if (user != null)
+            {
+                Console.WriteLine($"Current meeting date for {username}: {user.MeetingDate.ToShortTimeString()}");
+                Console.WriteLine("Reschedule another meeting (yyyy-MM-dd): ");
+                string inputDate = Console.ReadLine();
+
+                if (DateTime.TryParseExact(inputDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime newDate))
+                {
+                    user.MeetingDate = newDate;
+                    user.Availability = "available";
+
+                    SaveUserDatabase(userDatabase);
+
+                    Console.WriteLine($"New meeting scheduled with {username} on: {newDate.ToShortDateString()}");
+                }
+                else
+                {
+                    Console.WriteLine("Not a valid date format!");
+                }
+
+
+            }
+            else
+            {
+                Console.WriteLine($"{username} was not found in the user database!");
+            }
+        }
+        catch (Exception error)
+        {
+            Console.WriteLine(error);
+        }
     }
 
     public bool CheckUserAvailability(string username)

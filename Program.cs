@@ -15,12 +15,12 @@ namespace Timeplanlegger
 
             string[] usernames = { };
 
+
             // string newLogFile = "E:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\log.txt";
 
             HandleUserData handleUser = new HandleUserData();
             handleUser.CheckForDuplicateStrings(dataBaseFilePath);
             handleUser.GetUser(usernames);
-
         }
     }
 }

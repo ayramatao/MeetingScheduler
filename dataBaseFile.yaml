@@ -1,7 +1,12 @@
 - username: Andre
-  meeting_date: 2024-01-24T14:07:52.8193233+01:00
-  availability: available
-  
+  meeting_date: 2024-01-26T00:00:00.0000000
+  availability: not available
 - username: Jorgen
-  meeting_date: 2024-01-24T14:08:32.2813107+01:00
+  meeting_date: 2024-01-27T00:00:00.0000000
   availability: available
+- username: Test
+  meeting_date: 2024-01-29T00:00:00.0000000
+  availability: available
+- username: Test1
+  meeting_date: 2024-01-25T11:11:44.6671112+01:00
+  availability: not available
