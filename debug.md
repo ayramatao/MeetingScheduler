@@ -138,5 +138,18 @@ public class DynamicDatePlanner : Form
             }
         }
     }
+        
+// Helper-method from w3resources that solves a simple problem in our program
+// source: https://www.w3resource.com/csharp-exercises/string/csharp-string-exercise-52.php
+
+public static string Test(string inputString)
+{
+        // Split the input string into words, capitalize the first character of each word, and join them back into a string
+        return string.Join(" ", inputString.Split(' ').Select(word => char.ToUpper(word[0]) + word.Substring(1)));
+}
+
+
+var existingUser = userDatabase.FirstOrDefault(user => user.Username == Test(newUser));
+
 
 ````

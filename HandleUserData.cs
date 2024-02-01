@@ -46,7 +46,7 @@ public class HandleUserData
                 MeetingDate = newCalendar,
                 Availability = "not available"
             });
-
+            CheckIfUserIsAvailableInCalendar(dataBaseFilePath, newUser);
             SaveUserDatabase(userDatabase);
         }
 
@@ -58,7 +58,18 @@ public class HandleUserData
 
         if (existingUser.Availability != "available")
         {
-            ScheduleNewMeeting(newUser);
+            Console.WriteLine($"Would you like to schedule a new meeting with {newUser}? Y/n? ");
+            string userInputInternal = Console.ReadLine().ToString().ToLower();
+            if (userInputInternal == "y")
+            {
+                ScheduleNewMeeting(newUser);
+            }
+            else
+            {
+                Console.WriteLine("Here is a list of the users available for a meeting on this date:\n");
+                Console.WriteLine(LoadUserDatabase().ToString());
+
+            }
         }
 
     }
@@ -78,20 +89,26 @@ public class HandleUserData
 
                 if (DateTime.TryParseExact(inputDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime newDate))
                 {
-                    user.MeetingDate = newDate;
-                    user.Availability = "available";
+                    Console.WriteLine("Schedule a meeting within the timespan 1-2 hours, format: 09:10-11:00: ");
+                    string rangeTime = Console.ReadLine();
 
-                    SaveUserDatabase(userDatabase);
+                    if (TryParseTimeRange(rangeTime, out TimeSpan startTime, out TimeSpan endTime))
+                    {
+                        user.MeetingDate = newDate;
+                        user.Availability = "available";
+                        SaveUserDatabase(userDatabase);
 
-                    Console.WriteLine($"New meeting scheduled with {username} on: {newDate.ToShortDateString()}");
+                        Console.WriteLine($"New meeting scheduled with {username} on: {newDate.ToShortDateString()}");
+                    }
+
                 }
+
                 else
                 {
-                    Console.WriteLine("Not a valid date format!");
+                    Console.WriteLine("Not a valid time format!");
                 }
-
-
             }
+
             else
             {
                 Console.WriteLine($"{username} was not found in the user database!");
@@ -103,6 +120,20 @@ public class HandleUserData
         }
     }
 
+    private bool TryParseTimeRange(string timeRange, out TimeSpan startTime, out TimeSpan endTime)
+    {
+        startTime = TimeSpan.Zero;
+        endTime = TimeSpan.Zero;
+
+        string[] timeParts = timeRange.Split("-");
+
+        if (timeParts.Length == 2 && TimeSpan.TryParseExact(timeParts[0], "hh\\:mm", CultureInfo.InvariantCulture, out startTime) && TimeSpan.TryParseExact(timeParts[1], "hh\\:mm", CultureInfo.InvariantCulture, out endTime))
+        {
+            return true;
+        }
+
+        return false;
+    }
     public bool CheckUserAvailability(string username)
     {
         DateTime meetingDate = DateTime.Now;
@@ -110,13 +141,11 @@ public class HandleUserData
         var user = userDatabase.FirstOrDefault(u => u.Username == username);
 
 
-
         if (user != null && user.MeetingDate == meetingDate && user.Availability == "available")
         {
             Console.WriteLine($"{username} is available for a meeting on {meetingDate}! DEBUG: LINE 113");
             return true;
         }
-
 
         else
         {
@@ -174,16 +203,16 @@ public class HandleUserData
 
     private bool CheckIfUserIsAvailableInCalendar(string dataBaseFilePath, string username)
     {
-        bool available = true;
+        User available = new User();
 
-        if (!available)
+        if (available.Availability != "available")
         {
             Console.WriteLine($"{username} is not available for a meeting!");
         }
         else
         {
             DateTime meetingDate = DateTime.Now;
-            Console.WriteLine($"{username} is available for a meeting on: {meetingDate.ToString("yyyy-MM-dd HH:mm:ss")} DEBUG: LINE 114");
+            Console.WriteLine($"{username} is available for a meeting on: {meetingDate.ToString("yyyy-MM-dd HH:mm:ss")} DEBUG: LINE 205");
         }
 
         return true;
