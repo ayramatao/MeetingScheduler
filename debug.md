@@ -153,3 +153,50 @@ var existingUser = userDatabase.FirstOrDefault(user => user.Username == Test(new
 
 
 ````
+
+```cs
+    {
+        try
+        {
+            var userDatabase = LoadUserDatabase();
+            var user = userDatabase.FirstOrDefault(u => u.Username == username);
+
+            if (user != null)
+            {
+                Console.WriteLine($"Current meeting date for {username}: {user.MeetingDate.ToShortDateString()}");
+                Console.WriteLine("Reschedule another meeting (yyyy-MM-dd): ");
+                string inputDate = Console.ReadLine();
+
+                if (DateTime.TryParseExact(inputDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime newDate))
+                {
+                    Console.WriteLine("Schedule a meeting within the timespan 1-2 hours, example format: 09:10-11:00: ");
+                    string rangeTime = Console.ReadLine();
+
+                    if (TryParseTimeRange(rangeTime, out TimeSpan startTime, out TimeSpan endTime))
+                    {
+                        var addTime = startTime - endTime;
+                        user.MeetingDate = newDate;
+                        user.Availability = "available";
+                        Console.WriteLine($"{startTime.ToString()}-{endTime} L:100");
+                        Console.WriteLine($"New meeting scheduled with {username} on: {newDate.ToShortDateString()} at: {startTime}-{endTime}");
+                        SaveUserDatabase(userDatabase);
+                    }
+                }
+
+                else
+                {
+                    Console.WriteLine("Not a valid time format!");
+                }
+            }
+
+            else
+            {
+                Console.WriteLine($"{username} was not found in the user database!");
+            }
+        }
+        catch (Exception error)
+        {
+            Console.WriteLine(error);
+        }
+    }
+```
