@@ -7,12 +7,15 @@ using System.Linq.Expressions;
 using YamlDotNet;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using System.Reflection.Metadata;
 
 public class User
 {
-    public string Username { get; set; }
+    public string? Username { get; set; }
     public DateTime MeetingDate { get; set; }
-    public string Availability { get; set; }
+    public string? Availability { get; set; }
+
+    public TimeSpan MeetingDuration { get; set; }
 }
 
 
@@ -21,7 +24,7 @@ public class HandleUserData
     string dataBaseFilePath = "E:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\dataBaseFile.yaml";
 
 
-    public void HandlerUserDataMethod(string dataBaseFilePath, string logFile)
+    public void HandlerUserDataMethod(string dataBaseFilePath)
     {
         this.dataBaseFilePath = dataBaseFilePath;
     }
@@ -30,8 +33,9 @@ public class HandleUserData
     {
         DateTime newCalendar = DateTime.Now;
         Console.WriteLine("Who is logging in? ");
+        TimeSpan newRangeTime = new TimeSpan();
 
-        var newUser = Console.ReadLine();
+        string? newUser = Console.ReadLine();
         Console.WriteLine($"{newUser} has logged in!");
         // File.AppendAllText(dataBaseFilePath, newUser + "\n");
 
@@ -44,7 +48,8 @@ public class HandleUserData
             {
                 Username = newUser,
                 MeetingDate = newCalendar,
-                Availability = "not available"
+                Availability = "not available",
+                MeetingDuration = newRangeTime
             });
             CheckIfUserIsAvailableInCalendar(dataBaseFilePath, newUser);
             SaveUserDatabase(userDatabase);
@@ -60,7 +65,7 @@ public class HandleUserData
         if (existingUser != null && existingUser.Availability == "available")
         {
             Console.WriteLine($"Would you like to schedule a new meeting with {newUser}? Y/n? ");
-            string userInputInternal = Console.ReadLine().ToString().ToLower();
+            string? userInputInternal = Console.ReadLine().ToLower();
             if (userInputInternal == "y")
             {
                 ScheduleNewMeeting(newUser);
@@ -68,8 +73,9 @@ public class HandleUserData
             else
             {
                 Console.WriteLine("Here is a list of the users available for a meeting on this date:\n");
-                Console.WriteLine(LoadUserDatabase().ToString());
 
+                string? output = File.ReadAllText(dataBaseFilePath);
+                Console.WriteLine(output);
             }
         }
 
@@ -84,23 +90,50 @@ public class HandleUserData
 
             if (user != null)
             {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Current meeting date for {username}: {user.MeetingDate.ToShortDateString()}");
                 Console.WriteLine("Reschedule another meeting (yyyy-MM-dd): ");
-                string inputDate = Console.ReadLine();
+                string? inputDate = Console.ReadLine();
 
                 if (DateTime.TryParseExact(inputDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime newDate))
                 {
                     Console.WriteLine("Schedule a meeting within the timespan 1-2 hours, example format: 09:10-11:00: ");
-                    string rangeTime = Console.ReadLine();
+                    string? rangeTime = Console.ReadLine();
 
                     if (TryParseTimeRange(rangeTime, out TimeSpan startTime, out TimeSpan endTime))
                     {
-                        var addTime = startTime - endTime;
-                        user.MeetingDate = newDate;
-                        user.Availability = "available";
-                        Console.WriteLine($"{addTime} L:100");
-                        Console.WriteLine($"New meeting scheduled with {username} on: {newDate.ToShortDateString()} at: {startTime}-{endTime}");
-                        SaveUserDatabase(userDatabase);
+
+                        TimeSpan meetingTime = endTime - startTime;
+                        Console.WriteLine(meetingTime);
+
+                        if (meetingTime.TotalHours <= 2 && meetingTime.TotalHours > 0)
+                        {
+                            DateTime newMeetingDateTime = newDate.Date + startTime;
+
+                            user.MeetingDate = newDate.Add(startTime);
+                            user.Availability = "available";
+                            user.MeetingDuration = meetingTime;
+                            Console.WriteLine($"New meeting scheduled with {username} on: {newDate.ToShortDateString()} at: {startTime}-{endTime}");
+
+                            int userIndex = userDatabase.FindIndex(u => u.Username == username);
+
+                            if (userIndex != -1)
+                            {
+                                userDatabase[userIndex] = user;
+
+                                SaveUserDatabase(userDatabase);
+                            }
+
+                            else
+                            {
+                                Console.WriteLine($"Error: User {username} was not found in the database!");
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Meeting duration must be between 1 and 2 hours!");
+                        }
                     }
                 }
 
@@ -108,6 +141,7 @@ public class HandleUserData
                 {
                     Console.WriteLine("Not a valid time format!");
                 }
+                Console.ResetColor();
             }
 
             else
@@ -138,14 +172,12 @@ public class HandleUserData
 
     public bool CheckUserAvailability(string username)
     {
-        DateTime meetingDate = DateTime.Now;
+        DateTime localScopeMeetingDate = DateTime.Now;
         var userDatabase = LoadUserDatabase();
-        var user = userDatabase.FirstOrDefault(u => u.Username == username);
-
-        // Bug found on Line 145 in if-statement
-        if (user != null && user.MeetingDate == meetingDate && user.Availability == "available")
+        var user = userDatabase.FirstOrDefault(u => u.Username == username);        // Bug found on Line 145 in if-statement
+        if (user != null && user.MeetingDate > localScopeMeetingDate && user.Availability == "available")
         {
-            Console.WriteLine($"{username} is available for a meeting on {meetingDate}! DEBUG: LINE 113");
+            Console.WriteLine($"{username} is available for a meeting on {user.MeetingDate} with an expected duration of {user.MeetingDuration}!");
             return true;
         }
 
@@ -203,7 +235,7 @@ public class HandleUserData
         }
     }
 
-    private bool CheckIfUserIsAvailableInCalendar(string dataBaseFilePath, string username)
+    private bool CheckIfUserIsAvailableInCalendar(string dataBaseFilePathReference, string username)
     {
         User available = new User();
 
@@ -234,8 +266,8 @@ public class HandleUserData
 
             if (hasDuplicate)
             {
-                Console.WriteLine($"Dupe found at {readAllUsers.ToString()}");
-                File.AppendAllText(logFilePath, readAllUsers.ToString() + "\t\n");
+                Console.WriteLine($"Dupe found at {string.Join(", ", readAllUsers)}");
+                File.AppendAllText(logFilePath, string.Join("\t\n", readAllUsers) + "\t\n");
                 Console.WriteLine("Check log!");
             }
 
