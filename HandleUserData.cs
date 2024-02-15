@@ -9,6 +9,27 @@ using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using System.Reflection.Metadata;
 
+/*
+Owner: https://github.com/ayramatao
+
+Contributor: https://github.com/JorgenMJobloop
+
+License: GNU General Public License 3.0 - https://www.gnu.org/licenses/gpl-3.0.html
+
+Version: 1.0.0
+
+C# Versions: 12.0
+
+.NET Version: 8.0.101
+
+Visual Studio Version: 17.9.0
+
+External packages: YamlDotNet: https://www.nuget.org/packages/yamldotnet/
+
+*/
+
+
+// constructor
 public class User
 {
     public string? Username { get; set; }
@@ -18,17 +39,17 @@ public class User
     public TimeSpan MeetingDuration { get; set; }
 }
 
-
+// public class
 public class HandleUserData
 {
     string dataBaseFilePath = "E:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\dataBaseFile.yaml";
 
-
+    // internal method #1
     public void HandlerUserDataMethod(string dataBaseFilePath)
     {
         this.dataBaseFilePath = dataBaseFilePath;
     }
-
+    // internal method #2
     public void GetUser(string[] usernames)
     {
         DateTime newCalendar = DateTime.Now;
@@ -80,7 +101,7 @@ public class HandleUserData
         }
 
     }
-
+    // internal method #3
     public void ScheduleNewMeeting(string username)
     {
         try
@@ -154,7 +175,7 @@ public class HandleUserData
             Console.WriteLine(error);
         }
     }
-
+    // internal private method #1
     private bool TryParseTimeRange(string timeRange, out TimeSpan startTime, out TimeSpan endTime)
     {
         startTime = TimeSpan.MinValue;
@@ -169,7 +190,7 @@ public class HandleUserData
 
         return false;
     }
-
+    // internal method #4
     public bool CheckUserAvailability(string username)
     {
         DateTime localScopeMeetingDate = DateTime.Now;
@@ -188,7 +209,7 @@ public class HandleUserData
         }
 
     }
-
+    // internal private object #1
     private List<User> LoadUserDatabase()
     {
         try
@@ -215,7 +236,7 @@ public class HandleUserData
             return new List<User>();
         }
     }
-
+    // internal private method #2
     private void SaveUserDatabase(List<User> userDatabase)
     {
         try
@@ -234,7 +255,7 @@ public class HandleUserData
             Console.WriteLine(error);
         }
     }
-
+    // internal private method #3
     private bool CheckIfUserIsAvailableInCalendar(string dataBaseFilePathReference, string username)
     {
         User available = new User();
@@ -252,10 +273,10 @@ public class HandleUserData
 
         return true;
     }
-
+    // internal method #5
     public void CheckForDuplicateStrings(string dataBaseFilePath)
     {
-        string logFilePath = "E:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\log.txt";
+        string logFilePath = "E:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\log.log";
 
         try
         {
@@ -281,6 +302,7 @@ public class HandleUserData
             Console.WriteLine(error);
         }
     }
+    // internal private method #4
     private bool HasDuplicates(string[] dupeArray)
     {
         // use a hashset to check for dupes!
@@ -289,7 +311,7 @@ public class HandleUserData
         // loop through the hashset with a foreach loop
         foreach (string element in dupeArray)
         {
-            // add a new element to the hashset, if it alrady exists.
+            // add the dupe element to the hashset, if it exists, if not, we can assume there was no dupes found, see line 301. - J
             if (!hashSet.Add(element))
             {
                 return true;

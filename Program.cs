@@ -11,7 +11,6 @@ bool isRunning = true;
 
 DateTime currentDatetime = DateTime.Now;
 
-
 // string newLogFile = "E:\\Ny_backup\\JOBB\\AMO\\Timeplanlegger\\Timeplanlegger\\log.txt";
 
 // while-loop that runs when the program is interactive
